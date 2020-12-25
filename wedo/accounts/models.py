@@ -9,6 +9,8 @@ from django.utils.translation import gettext_lazy as _
 from django.core.mail import send_mail
 from django.contrib.auth.models import UserManager
 from django.contrib.postgres.fields import ArrayField
+from model_utils.fields import StatusField
+from model_utils import Choices
 
 
 class CustomUserManager(UserManager):
@@ -26,6 +28,11 @@ class CustomUserManager(UserManager):
         return user
 
 class CustomUser(AbstractUser):
-   
     joining_room = models.ManyToManyField('chat.Room',blank=True, related_name='joining_room')
-    
+   
+
+class UserRelationship(models.Model):
+    STATUS = Choices('friend','unrelated','blocked')
+    relating_user =  models.ForeignKey(CustomUser,on_delete=models.CASCADE, related_query_name='relating_user',null=True)
+    related_user = models.ForeignKey(CustomUser,on_delete=models.CASCADE,related_name='related_user',null=True)
+    status = StatusField(default='unrelated',)

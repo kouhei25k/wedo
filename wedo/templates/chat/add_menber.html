@@ -1,0 +1,25 @@
+{% extends 'chat/base.html' %}
+{% block content %}
+
+
+<h3>メンバーの追加</h3>
+<div>
+    {% if friend_list %}
+    {%for friend in friend_list %}
+    <div>
+        <form  method="POST">
+            {% csrf_token%}
+            <input type="hidden" name='action' value="{{friend.related_user}}">
+            <button type="submit">追加</button>
+        </form>
+        {{friend.related_user}}
+    </div>
+    {% endfor %}
+    {% else %}
+    <p>いません</p>
+    {% endif %}
+</div>
+
+<a href="../">room編集に戻る</a>
+
+{% endblock %}

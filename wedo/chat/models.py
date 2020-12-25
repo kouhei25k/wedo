@@ -2,8 +2,10 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth import get_user_model
 from django.contrib.postgres.fields import ArrayField
-from account.models import CustomUser
+from accounts.models import CustomUser
 # Create your models here.
+
+
 
 
 

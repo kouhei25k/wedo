@@ -17,7 +17,10 @@ from django.conf.urls import include
 from django.urls import path
 from django.contrib import admin
 
+
+
 urlpatterns = [
-    path('', include('chat.urls')),
+    path('chat/', include('chat.urls')),
     path('admin/', admin.site.urls),
+    path('accounts/', include(('django.contrib.auth.urls','accounts')))
 ]

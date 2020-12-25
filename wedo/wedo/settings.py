@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -39,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'chat.apps.ChatConfig',
-    'account.apps.AccountConfig',
+    'accounts.apps.AccountConfig',
     
 ]
 
@@ -58,7 +59,7 @@ ROOT_URLCONF = 'wedo.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -90,7 +91,7 @@ DATABASES = {
 }
 
 
-AUTH_USER_MODEL = 'account.CustomUser'
+AUTH_USER_MODEL = 'accounts.CustomUser'
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
@@ -143,3 +144,6 @@ CHANNEL_LAYERS = {
         },
     },
 }
+
+LOGIN_REDIRECT_URL='chat:index'      # ログイン
+LOGOUT_REDIRECT_URL='accounts:login'  # ログアウト
