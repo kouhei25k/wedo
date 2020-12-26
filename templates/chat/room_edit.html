@@ -1,10 +1,22 @@
 
-<h4>メンバー</h4>
+<div>
+    <h4>メンバー</h4>
+    <div>
+        {% for menber in menber_list %}
+        {{menber}}
+        {% endfor %}
+    </div>
+</div>
 
+<div>
+    <div>
+        <h4>Wedo</h4>
+        {% for todo in todo_list %}
+        {{todo}}
+        {% endfor %}
 
-{% for menber in menber_list %}
-{{menber}}
-{% endfor %}
+    </div>
+</div>
 
 <a href="add_menber/">メンバーを追加する</a>
 
