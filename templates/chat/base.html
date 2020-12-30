@@ -1,16 +1,70 @@
 <!DOCTYPE html>
-<html lang="en">
+{% load static %}
+<html lang="ja">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Document</title>
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+		integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous" />
+	<link rel="stylesheet" href="{% static 'css/style.css' %}" />
 </head>
 
 <body>
-    {% block content %}
-    <!-- just leaving it empty for now. we will add core here soon. -->
-    {% endblock %}
+	<div class="container-fluid">
+		<div class="row">
+			<nav class="col-2 d-none d-block bg-light sidebar">
+				<div class="sidebar-sticky p-0">
+					<div class="sidebar_header">
+						{% if request.user.is_authenticated %}
+						<div class="username">
+							{{ request.user.username }} <span>↓</span>
+						</div>
+						{% endif %}
+					</div>
+					<div>
+						<div class="sidebar_title">
+							<span>↓</span>ルーム
+						</div>
+						<ul class="nav flex-column">
+							{% for room in room_list %}
+							<li class="nav-item">
+								<a class="nav-link active" href="{% url 'chat:room' room_name=room.id %}"># {{room}}</a>
+							</li>
+							{% endfor %}
+							<li class="nav-item">
+								<div id="app">
+									<a v-on:click="openModal">+ルームを追加する</a>
+									<open-modal v-show="showContent" v-on:from-child="closeModal">
+										<h2>ルームを新しく作成する<h2>
+												<div class="create-room-box">
+													<form action="{% url 'chat:createroom' %}" method="post">
+														{% csrf_token %}
+														<input placeholder="ルーム名を入力" type="text" name="room_name"
+															value="">
+														<input type="submit" class="send" name="create_new_room"
+															value="作成">
+													</form>
+												</div>
+									</open-modal>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+			<main role="main" class="col-10 offset-2 p-0">
+				<div class="workspace_contents">
+					{% block content %}
+					{% endblock %}
+				</div>
+			</main>
+		</div>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script src="{% static 'js/script.js' %}"></script>
 </body>
 
 </html>

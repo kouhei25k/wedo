@@ -1,0 +1,142 @@
+/* base */
+/*
+ * Sidebar
+ */
+.workspace_contents {
+	width: 100%;
+}
+.sidebar {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 100; /* Behind the navbar */
+	padding: 0; /* Height of navbar */
+}
+
+.sidebar-sticky {
+	background-color: #333333;
+	position: relative;
+	top: 0;
+	height: 100vh;
+	padding-top: 0.5rem;
+	overflow-x: hidden;
+	overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+}
+
+.sidebar_header {
+	border-bottom: 1px solid #fff;
+	padding: 0 30px;
+}
+.username {
+	color: #fff;
+	font-size: 24px;
+	margin: 8px 0;
+}
+.nav-item {
+	padding-left: 18px;
+}
+.nav-item > a {
+	color: #fff;
+}
+.nav-item > #app > a {
+	color: #fff;
+}
+
+.sidebar_title {
+	color: #fff;
+	padding: 20px 16px 10px 16px;
+}
+
+/* room */
+
+/* room_heder */
+.room_header {
+	position: sticky;
+	top: 0;
+	background-color: #fff;
+	display: flex;
+	border-bottom: 1px solid #707070;
+	padding: 0 20px;
+}
+.room_name > p {
+	margin: 8px 0px;
+}
+.room_info {
+	display: flex;
+	margin: 8px 0px;
+}
+
+.room_name {
+	margin-right: auto;
+	font-size: 24px;
+}
+/* room_footer */
+.room_footer {
+	background-color: #fff;
+	position: fixed;
+	bottom: 0;
+	padding: 0px 20px 20px 20px;
+}
+
+.message_input {
+	width: 100%;
+	display: flex;
+}
+
+.message_input_box {
+	height: 50px;
+	width: 100%;
+}
+.message_input_send {
+	display: none;
+}
+
+.message_container {
+	display: flex;
+	padding: 8px 20px;
+}
+.message_content {
+	padding: 0px 8px 8px 8px;
+}
+
+.message_user_name {
+	font-weight: bold;
+}
+.message_create_at {
+	margin-left: 2px;
+	font-size: 12px;
+}
+
+/* modal */
+#content {
+	z-index: 10;
+	width: 50%;
+	padding: 1em;
+	background: #fff;
+}
+#overlay {
+	/*　要素を重ねた時の順番　*/
+	z-index: 1;
+
+	/*　画面全体を覆う設定　*/
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+
+	/*　画面の中央に要素を表示させる設定　*/
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+#chat-log {
+	margin-bottom: 80px;
+}
+#todo-form {
+	position: fixed;
+	right: 0px;
+	bottom: 80px;
+}

@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'chat.apps.ChatConfig',
     'accounts.apps.AccountConfig',
-    
+
+
 ]
 
 MIDDLEWARE = [
@@ -67,6 +68,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'chat.context_processor.common',
             ],
         },
     },
@@ -94,7 +96,6 @@ DATABASES = {
 AUTH_USER_MODEL = 'accounts.CustomUser'
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
-
 
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -132,9 +133,13 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
 
-#ASGI
-ASGI_APPLICATION ='wedo.asgi.application'
+
+# ASGI
+ASGI_APPLICATION = 'wedo.asgi.application'
 
 CHANNEL_LAYERS = {
     'default': {
@@ -145,5 +150,5 @@ CHANNEL_LAYERS = {
     },
 }
 
-LOGIN_REDIRECT_URL='chat:index'      # ログイン
-LOGOUT_REDIRECT_URL='accounts:login'  # ログアウト
+LOGIN_REDIRECT_URL = 'chat:index'      # ログイン
+LOGOUT_REDIRECT_URL = 'accounts:login'  # ログアウト
