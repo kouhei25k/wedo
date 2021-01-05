@@ -7,7 +7,7 @@
     {% if friend_list %}
     {%for friend in friend_list %}
     <div>
-        <form  method="POST">
+        <form method="POST">
             {% csrf_token%}
             <input type="hidden" name='action' value="{{friend.related_user}}">
             <button type="submit">追加</button>
@@ -20,6 +20,6 @@
     {% endif %}
 </div>
 
-<a href="../">room編集に戻る</a>
+<a href="../../">room編集に戻る</a>
 
 {% endblock %}

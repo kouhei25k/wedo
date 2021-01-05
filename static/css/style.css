@@ -1,9 +1,14 @@
 /* base */
+.col-10 {
+	padding-right: 0px;
+}
+
 /*
  * Sidebar
  */
 .workspace_contents {
 	width: 100%;
+	height: 100vh;
 }
 .sidebar {
 	position: fixed;
@@ -79,6 +84,27 @@
 	padding: 0px 20px 20px 20px;
 }
 
+.room_details {
+	border-left: 1px solid #707070;
+}
+.room_details_header {
+	border-bottom: 1px solid #707070;
+}
+.room_details_header {
+	display: flex;
+}
+.room_details_header p {
+	font-size: 24px;
+	margin: 8px 0px;
+}
+
+.room_details_header span {
+	position: absolute;
+	font-size: 30px;
+	margin: 10px 0px;
+	right: 0;
+}
+/* message_input */
 .message_input {
 	width: 100%;
 	display: flex;
@@ -108,11 +134,55 @@
 	font-size: 12px;
 }
 
+.message_todo {
+	padding: 8px 20px;
+}
+
+.message_todo-container {
+	width: 600px;
+	height: 180px;
+	border: 3px solid #707070;
+	border-radius: 16px;
+	opacity: 1;
+	padding: 20px;
+	background: #fff;
+	margin-left: auto;
+	margin-right: 100px;
+}
+.message_todo-container div {
+	margin-bottom: 10px;
+}
+.message_todo-container div span {
+	border-bottom: 2px solid #707070;
+
+	padding: 3px;
+	font-size: 24px;
+}
+
+.todo_body {
+	display: flex;
+}
+.todo_body div {
+	margin-right: 15px;
+}
+
 /* modal */
 #content {
-	z-index: 10;
-	width: 50%;
-	padding: 1em;
+	position: relative;
+}
+.modal_clear {
+	position: absolute;
+	top: 16px;
+	right: 16px;
+}
+.create-room-modal {
+	position: relative;
+	width: 480px;
+	height: 360px;
+	border: 3px solid #707070;
+	border-radius: 16px;
+	opacity: 1;
+	padding: 20px;
 	background: #fff;
 }
 #overlay {
@@ -135,8 +205,43 @@
 #chat-log {
 	margin-bottom: 80px;
 }
-#todo-form {
+
+/* todo-form */
+.open_todo_form_icon {
 	position: fixed;
-	right: 0px;
-	bottom: 80px;
+	right: 35px;
+	bottom: 90px;
+}
+.todo-form-container {
+	position: relative;
+	width: 360px;
+	height: 480px;
+	border: 3px solid #707070;
+	border-radius: 16px;
+	opacity: 1;
+	padding: 20px;
+	background: #fff;
+}
+.input-container {
+	text-align: left;
+	margin: 10px;
+}
+.input {
+	width: 200px;
+	height: 40px;
+	border: 1px solid #707070;
+	border-radius: 10px;
+	opacity: 1;
+}
+
+.input-button {
+	position: absolute;
+	bottom: 20px;
+	color: #fff;
+	width: 200px;
+	height: 40px;
+	background: hsl(198, 100%, 56%);
+	border: none;
+	border-radius: 10px;
+	opacity: 1;
 }

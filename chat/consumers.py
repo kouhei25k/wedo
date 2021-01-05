@@ -41,7 +41,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 {
                     'type': 'chat_message',
                     'message': message,
-                    'username': username
+                    'username': username,
+                    'is_todo': is_todo
                 }
             )
         if 'what' in text_data_json:
@@ -50,31 +51,18 @@ class ChatConsumer(AsyncWebsocketConsumer):
             how_much = text_data_json['how_much']
             by_when = text_data_json['by_when']
             punishment = text_data_json['punishment']
-
-            # Send message to room group
-
             await self.save_todo(text_data_json)
-            # await self.channel_layer.group_send(
-            #     self.room_group_name,
-            #     {
-            #         'type': 'chat_todo',
-            #         'create_user': create_user,
-            #         'what': what,
-            #         'how_much':  how_much,
-            #         'by_when': by_when,
-            #         'punishment': punishment,
-            #     }
-            # )
-
     # Receive message from room group
 
     async def chat_message(self, event):
         message = event['message']
         username = event['username']
+        is_todo = event['is_todo']
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
             'message': message,
-            'username': username
+            'username': username,
+            'is_todo': is_todo
         }))
 
     @database_sync_to_async
@@ -100,6 +88,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             ' how_much':  how_much,
             'by_when': by_when,
             'punishment': punishment,
+            'is_todo': is_todo
 
         }))
 

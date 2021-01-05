@@ -6,7 +6,7 @@
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Document</title>
-
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
 		integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous" />
 	<link rel="stylesheet" href="{% static 'css/style.css' %}" />
@@ -30,6 +30,7 @@
 						</div>
 						<ul class="nav flex-column">
 							{% for room in room_list %}
+
 							<li class="nav-item">
 								<a class="nav-link active" href="{% url 'chat:room' room_name=room.id %}"># {{room}}</a>
 							</li>
@@ -38,16 +39,18 @@
 								<div id="app">
 									<a v-on:click="openModal">+ルームを追加する</a>
 									<open-modal v-show="showContent" v-on:from-child="closeModal">
-										<h2>ルームを新しく作成する<h2>
-												<div class="create-room-box">
-													<form action="{% url 'chat:createroom' %}" method="post">
-														{% csrf_token %}
-														<input placeholder="ルーム名を入力" type="text" name="room_name"
-															value="">
-														<input type="submit" class="send" name="create_new_room"
-															value="作成">
-													</form>
-												</div>
+										<div class="create-room-modal">
+											<h3>ルームを新しく作成する<h3>
+													<div class="create-room-box">
+														<form action="{% url 'chat:createroom' %}" method="post">
+															{% csrf_token %}
+															<input placeholder="ルーム名を入力" type="text" name="room_name"
+																value="">
+															<input type="submit" class="send" name="create_new_room"
+																value="作成">
+														</form>
+													</div>
+										</div>
 									</open-modal>
 								</div>
 							</li>
@@ -56,15 +59,18 @@
 				</div>
 			</nav>
 			<main role="main" class="col-10 offset-2 p-0">
-				<div class="workspace_contents">
-					{% block content %}
-					{% endblock %}
-				</div>
+
+
+				{% block content %}
+				{% endblock %}
+
 			</main>
 		</div>
 	</div>
-	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+	<script src='https://unpkg.com/v-calendar'></script>
 	<script src="{% static 'js/script.js' %}"></script>
+	<script src="{% static 'js/websoket.js' %}"></script>
 </body>
 
 </html>

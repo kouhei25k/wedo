@@ -10,8 +10,8 @@ urlpatterns = [
     path('room/<str:room_name>/', views.room, name='room'),
     path('createroom/', views.createroom, name='createroom'),
     path('add_friend/', views.add_friend, name='add_friend'),
-    path('room/<str:room_name>/edit/add_menber/',
+    path('room/<str:room_name>/add_menber/',
          views.add_menber, name='add_menber'),
-    path('room/<str:room_name>/edit/', views.room_edit, name='room_edit'),
+    # path('room/<str:room_name>/edit/', views.room_edit, name='room_edit'),
 
 ]

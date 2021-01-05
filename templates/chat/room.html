@@ -1,199 +1,168 @@
 {% extends 'chat/base.html' %}
 {% load static %}
+{% load filters %}
 {% block content %}
-<div class=room_header>
-    <div class="room_name">
-        <p>#{{room.name}}</p>
-    </div>
-    <div class="room_info">
-        <div>
-            {%for menber in menber_list %}
-            <span>{{menber.username}}</span>
-            {% endfor %}
-        </div>
-        <div>
-            <button><a href="edit/">i</a></button>
-        </div>
-    </div>
-</div>
-<div>
-    <div id="chat-log">
-        {% for message in message_list %}
-        {% if message.is_todo == False %}
-        <div class="message_container">
-            <div class="user_icon">
-                <img src="{% static 'images/user_icon.jpg' %}" alt="user_icon">
+<div class="workspace_contents" v-bind:class="classRow" id="room_vue">
+    <div v-bind:class="classCol10">
+        <div class="room_header">
+            <div class="room_name">
+                <p>#{{room.name}}</p>
             </div>
-            <div class="message_content">
-                <div class="message_head">
-                    <span class="message_user_name">
-                        {{message.user__username}}
-                    </span>
-                    <span class="message_create_at">{{message.create_at | date:"f"}}</span>
-
+            <div class="room_info">
+                <div>
+                    {%for menber in menber_list %}
+                    <span>{{menber.username}}</span>
+                    {% endfor %}
                 </div>
-                <div class="message_body">
-                    {{message.content}}
+                <div>
+                    <span v-on:click="openDetails" class="material-icons" style="font-size: 30px">
+                        error_outline
+                    </span></a>
                 </div>
             </div>
         </div>
-        {% elif message.is_todo == True %}
-        <div class="message_todo">
-            {{message.content}}
+        <div>
+            <div id="chat-log">
+                {% for message in message_list %}
+                {% if message.is_todo == False %}
+                <div class="message_container">
+                    <div class="user_icon">
+                        <img src="{% static 'images/user_icon.jpg' %}" alt="user_icon" />
+                    </div>
+                    <div class="message_content">
+                        <div class="message_head">
+                            <span class="message_user_name"> {{message.user}} </span>
+                            <span class="message_create_at">{{message.create_at | date:"f"}}</span>
+                        </div>
+                        <div class="message_body">{{message.content}}</div>
+                    </div>
+                </div>
+                {% elif message.is_todo == True %}
+
+                <div class="message_todo">
+                    <div class="message_todo-container">
+                        <div class="todo_create_user">
+                            <span>{{message.content| literal_eval:"create_user"}}</span>
+                            は
+                        </div>
+                        <div class=todo_body>
+                            <div class="todo_what">
+                                <span>{{message.content | literal_eval:"what"}}</span>
+                                を
+                            </div>
+                            <div class="todo_by_when">
+                                <span>{{message.content| literal_eval:"by_when"}}</span>
+                                までに
+                            </div>
+                            <div class="todo_how_much">
+                                <span>{{message.content| literal_eval:"how_much"}}</span>
+                                個
+                            </div>
+                        </div>
+                        <div class="todo_punishment">
+                            出来なければ、
+                            <span>{{message.content | literal_eval:"punishment"}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                {% endif %}
+                {% endfor %}
+            </div>
         </div>
 
-        {% endif %}
-        {% endfor %}
+        <div class="room_footer" v-bind:class="footerCol">
+            <div class="message_input">
+                <textarea id="chat-message-input" type="text" class="message_input_box"></textarea>
+                <input id="chat-message-submit" type="button" value="Send" class="message_input_send" />
+            </div>
+        </div>
     </div>
 
-    <div>
-        <form id="todo-form">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input id="todo-form-submit" type="button" value="Send" name="todo_form">投稿する</input>
-        </form>
+
+    <div class="room_details col-2" v-show="showDetails">
+        <div class="room_details_header">
+
+            <p>詳細</p>
+            <span v-on:click="closeDetails" type="button" class="material-icons ">clear</span>
+
+
+
+        </div>
+        <div class="details_menber">
+            <h5>メンバー</h5>
+            <ul>
+                {% for menber in menber_list %}
+                <li>{{menber}}</li>
+                {% endfor %}
+
+            </ul>
+            <div>
+                <a v-on:click="openModal">+メンバーを追加する</a>
+                <open-modal v-show="showAddMenberModal" v-on:from-child="closeModal">
+                    <div class="create-room-modal">
+                        <h3>メンバーを追加する<h3>
+                                <div>
+                                    {% if friend_list %}
+                                    {%for friend in friend_list %}
+                                    <div>
+                                        {{friend.related_user}}
+                                        <form action="add_menber/" method="POST">
+                                            {% csrf_token%}
+                                            <input type="hidden" name='action' value="{{friend.related_user}}">
+                                            <button type="submit">追加</button>
+                                        </form>
+                                    </div>
+                                    {% endfor %}
+                                    {% else %}
+                                    <p>いません</p>
+                                    {% endif %}
+                                </div>
+                    </div>
+                </open-modal>
+            </div>
+
+        </div>
     </div>
+
 </div>
+<div id="todo-form-vue">
+    <a v-on:click="openModal" class="open_todo_form_icon"><span class="material-icons md-48"
+            style="font-size: 80px">add_circle</span></a>
+    <open-modal v-show="showContent" v-on:from-child="closeModal">
+        <div class="todo-form-container">
+            <form id="todo-form">
+                <div class="input-container">
+                    <input class="input" type="text" name="what" maxlength="50" id="id_what" placeholder="なにを" />
+                    <span class="helptext">を</span>
+                </div>
 
-
-<div class="room_footer col-10">
-    <div class="message_input">
-        <textarea id="chat-message-input" type="text" class="message_input_box"></textarea>
-        <input id="chat-message-submit" type="button" value="Send" class="message_input_send">
-    </div>
-
+                <div class="input-container">
+                    <v-date-picker v-model="selectedDate">
+                        <template v-slot="{ inputValue, inputEvents }">
+                            <input class="input" :value="inputValue" v-on="inputEvents" id="id_by_when" />
+                            <span class="helptext">までに</span>
+                        </template>
+                    </v-date-picker>
+                </div>
+                <div class="input-container">
+                    <input class="input" type="number" name="how_much" min="0" required="" id="id_how_much"
+                        placeholder="どのくらい" />
+                </div>
+                <div class="input-container">
+                    <p class="helptext">出来なければ・・・</p>
+                    <input class="input" type="text" name="punishment" maxlength="50" required="" id="id_punishment"
+                        placeholder="罰" />
+                </div>
+                <input class="input-button" id="todo-form-submit" type="button" value="約束" name="todo_form" />
+            </form>
+        </div>
+    </open-modal>
 </div>
-
-
-
-
-
-{{ room.id|json_script:"room-name" }}
 
 
 <script>
-    const roomName = JSON.parse(document.getElementById('room-name').textContent);
-
-    const chatSocket = new WebSocket(
-        'ws://'
-        + window.location.host
-        + '/ws/chat/'
-        + roomName
-        + '/'
-    );
-    const chatLog = document.getElementById("chat-log");
-    chatSocket.onmessage = function (e) {
-        const data = JSON.parse(e.data);
-        const newErement = document.createElement('p');
-
-        if (data.message) {
-            newErement.textContent = `${data.username}:${data.message} `;
-            chatLog.appendChild(newErement);
-        } else if (data.what) {
-            newErement.textContent = `${data.create_user}:${data.what}:${data.how_much}:${data.by_when}:${data.punishment} `;
-            chatLog.appendChild(newErement);
-        }
-
-    };
-
-    chatSocket.onclose = function (e) {
-        console.error('Chat socket closed unexpectedly');
-    };
-
-    document.querySelector('#chat-message-input').focus();
-    document.querySelector('#chat-message-input').onkeyup = function (e) {
-        if (e.keyCode === 13) {  // enter, return
-            document.querySelector('#chat-message-submit').click();
-        }
-    };
     const username = "{{ user.username }}";
-    document.querySelector('#chat-message-submit').onclick = function (e) {
-
-        const messageInputDom = document.querySelector('#chat-message-input');
-        const message = messageInputDom.value;
-
-        chatSocket.send(JSON.stringify({
-            'message': message,
-            'username': username,
-            'is_todo': false
-        }));
-        messageInputDom.value = '';
-    };
-
-
-    document.querySelector('#todo-form-submit').onclick = function (e) {
-
-        const todoInputDom = document.querySelector('#todo-form');
-        const what = todoInputDom.what.value;
-        const how_much = todoInputDom.how_much.value;
-        const by_when_year = todoInputDom.by_when_year.value;
-        const by_when_month = todoInputDom.by_when_month.value;
-        const by_when_day = todoInputDom.by_when_day.value;
-        const by_when = new Date(`${by_when_year}/${by_when_month}/${by_when_day}`)
-        const punishment = todoInputDom.punishment.value;
-
-
-        // message =
-        //     `
-        // create_user: ${username},what: ${what},how_much: ${how_much},by_when: ${by_when},punishment: ${punishment},
-        // `
-        message = {
-            'create_user': username,
-            'what': what,
-            'how_much': how_much,
-            'by_when': by_when,
-            'punishment': punishment,
-
-        }
-
-        chatSocket.send(JSON.stringify({
-            'message': message,
-            'username': username,
-            'create_user': username,
-            'what': what,
-            'how_much': how_much,
-            'by_when': by_when,
-            'punishment': punishment,
-            'is_todo': true
-
-        }));
-
-
-    };
-
-
-
-    // document.querySelector('#todo-form').focus();
-    // document.querySelector('#todo-form').onkeyup = function (e) {
-    //     if (e.keyCode === 13) {  // enter, return
-    //         document.querySelector('#todo-form-submit').click();
-    //     }
-    // };
-
-    // document.querySelector('#todo-form-submit').onclick = function (e) {
-
-    //     const todoInputDom = document.querySelector('#todo-form');
-    //     const what = todoInputDom.what.value;
-    //     const how_much = todoInputDom.how_much.value;
-    //     const by_when_year = todoInputDom.by_when_year.value;
-    //     const by_when_month = todoInputDom.by_when_month.value;
-    //     const by_when_day = todoInputDom.by_when_day.value;
-    //     const by_when = new Date(`${by_when_year}/${by_when_month}/${by_when_day}`)
-    //     const punishment = todoInputDom.punishment.value;
-    //     console.log("フォーム送信！")
-    //     console.log(what + how_much + by_when + punishment)
-    //     chatSocket.send(JSON.stringify({
-    //         'create_user': username,
-    //         'what': what,
-    //         'how_much': how_much,
-    //         'by_when': by_when,
-    //         'punishment': punishment,
-    //     }));
-    //     console.log("フォーム送信！2")
-
-    // };
-
-
-
 </script>
+{{ room.id|json_script:"room-name" }}
 {% endblock %}

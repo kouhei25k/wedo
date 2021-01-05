@@ -21,18 +21,22 @@ class CustomUserManager(UserManager):
             raise ValueError('Users must have an email address')
 
         user = self.model(
-            username = username,
+            username=username,
         )
         user.set_password(password)
         user.save(using=self._db)
         return user
 
+
 class CustomUser(AbstractUser):
-    joining_room = models.ManyToManyField('chat.Room',blank=True, related_name='joining_room')
-   
+    joining_room = models.ManyToManyField(
+        'chat.Room', blank=True, related_name='joining_room')
+
 
 class UserRelationship(models.Model):
-    STATUS = Choices('friend','unrelated','blocked')
-    relating_user =  models.ForeignKey(CustomUser,on_delete=models.CASCADE, related_query_name='relating_user',null=True)
-    related_user = models.ForeignKey(CustomUser,on_delete=models.CASCADE,related_name='related_user',null=True)
+    STATUS = Choices('friend', 'unrelated', 'blocked')
+    relating_user = models.ForeignKey(
+        CustomUser, on_delete=models.CASCADE, related_query_name='relating_user', null=True)
+    related_user = models.ForeignKey(
+        CustomUser, on_delete=models.CASCADE, related_name='related_user', null=True)
     status = StatusField(default='unrelated',)
