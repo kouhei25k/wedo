@@ -21,7 +21,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '^^d=6fu+&^flz65bg#@g8bzb$rx882(8&8ev3e*r@gk^v+t^)4'
+if not DEBUG:
+    SECRET_KEY = os.environ['SECRET_KEY']
+    import django_heroku #追加
+    django_heroku.settings(locals())
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -53,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+     'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'wedo.urls'
@@ -152,6 +156,10 @@ CHANNEL_LAYERS = {
 
 LOGIN_REDIRECT_URL = 'chat:index'      # ログイン
 LOGOUT_REDIRECT_URL = 'accounts:login'  # ログアウト
+
+
+ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com']
+
 try:
     from .local_settings import *
 except ImportError:
