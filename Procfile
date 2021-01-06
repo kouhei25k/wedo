@@ -1,1 +1,1 @@
-web: gunicorn wedo.wsgi --log-file - 
+web: gunicorn wedo.wsgi
