@@ -1,0 +1,9 @@
+database.py
+
+wedo/local_settings.py
+
+debug.log
+
+.vscode
+
+__pycache__
