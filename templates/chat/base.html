@@ -15,7 +15,7 @@
 <body>
 	<div class="container-fluid">
 		<div class="row">
-			<nav class="col-2 d-none d-block bg-light sidebar">
+			<nav class="col-2 d-none d-block bg-light sidebar" id="sidebar_vue">
 				<div class="sidebar-sticky p-0">
 					<div class="sidebar_header">
 						{% if request.user.is_authenticated %}
@@ -25,20 +25,21 @@
 						{% endif %}
 					</div>
 					<div>
-						<div class="sidebar_title">
-							<span>↓</span>ルーム
-						</div>
-						<ul class="nav flex-column">
-							{% for room in room_list %}
+						<div>
+							<div class="sidebar_title">
+								<span>↓</span>ルーム
+							</div>
+							<ul class="nav flex-column">
+								{% for room in room_list %}
 
-							<li class="nav-item">
-								<a class="nav-link active" href="{% url 'chat:room' room_name=room.id %}"># {{room}}</a>
-							</li>
-							{% endfor %}
-							<li class="nav-item">
-								<div id="app">
+								<li class="nav-item">
+									<a class="nav-link active" href="{% url 'chat:room' room_name=room.id %}">#
+										{{room}}</a>
+								</li>
+								{% endfor %}
+								<li class="nav-item">
 									<a v-on:click="openModal">+ルームを追加する</a>
-									<open-modal v-show="showContent" v-on:from-child="closeModal">
+									<open-modal v-show="showAddRoom" v-on:from-child="closeModal">
 										<div class="create-room-modal">
 											<h3>ルームを新しく作成する<h3>
 													<div class="create-room-box">
@@ -52,9 +53,36 @@
 													</div>
 										</div>
 									</open-modal>
-								</div>
-							</li>
-						</ul>
+								</li>
+							</ul>
+						</div>
+						<div>
+							<div class="sidebar_title">
+								<span>↓</span>友だち
+							</div>
+							<ul class="nav flex-column">
+								{%for friend in friend_list %}
+								<li class="nav-item">
+									{% if friend.relating_user == user %}
+									<p>・{{friend.related_user}}</p>
+									{%elif friend.related_user == user %}
+									<p>・{{friend.relating_user}}</p>
+									{%endif%}
+								</li>
+								{% endfor %}
+								<li class="nav-item">
+									<a v-on:click="openAddFriendModal">+友だちを追加する</a>
+									<open-modal v-show="showAddFriend" v-on:from-child="closeAddFriendModal">
+										<div class="create-room-modal">
+											<h3>友だちを追加する<h3>
+
+										</div>
+									</open-modal>
+								</li>
+
+
+							</ul>
+						</div>
 					</div>
 				</div>
 			</nav>

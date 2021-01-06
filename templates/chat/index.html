@@ -2,71 +2,65 @@
 {% load static %}
 {% load filters %}
 {% block content %}
-<h2>ルームを新しく作成する<h2>
-        <div class="create-room-box">
-            <form action="createroom/" method="post">
-                {% csrf_token %}
-                <input placeholder="ルーム名を入力" type="text" name="room_name" value="">
-                <input type="submit" class="send" name="button" value="作成">
+
+
+<div>
+
+    <p>{{ user.username }}さんはどこのルームにも入っていません</p>
+    <p>左の「ルームを追加する」からルームを追加するか友達からルームの招待を受けてください。</p>
+
+
+</div>
+
+<div>
+    <h5>友達</h5>
+
+    {% if friend_list %}
+    {%for friend in friend_list %}
+    <div>
+
+        {% if friend.relating_user == user %}
+        {{friend.related_user}}
+        {%elif friend.related_user == user %}
+        {{friend.relating_user}}
+        {%endif%}
+    </div>
+    {% endfor %}
+    {% else %}
+    <p>いません</p>
+    {% endif %}
+
+    <div>
+        <h5>ユーザー一覧</h5>
+
+        {% if user_list %}
+        {%for user in user_list %}
+        <div>
+            {{user.username}}
+            <form action="add_friend/" method="post" name="add_friend">
+                {% csrf_token%}
+                <button type='submit' name='action' value="{{user.id}}">友達追加</button>
             </form>
         </div>
-        <div>
-            <p>どのチャットルームに入りたいですか？?</p>
-            {%for room in room_list%}
-            <a href="room/{{room.id}}">{{room}}</a>
-            {% endfor %}
+        {% endfor %}
+        {% else %}
+        <p>いません</p>
+        {% endif %}
 
-        </div>
+    </div>
 
-        <div>
-            <h2>友達</h2>
+</div>
+{% endblock %}
+<script>
+    document.querySelector('#room-name-input').focus();
+    document.querySelector('#room-name-input').onkeyup = function (e) {
+        if (e.keyCode === 13) {  // enter, return
+            document.querySelector('#room-name-submit').click();
+        }
+    };
 
-            {% if friend_list %}
-            {%for friend in friend_list %}
-            <div>
-
-                {% if friend.relating_user == user %}
-                {{friend.related_user}}
-                {%elif friend.related_user == user %}
-                {{friend.relating_user}}
-                {%endif%}
-            </div>
-            {% endfor %}
-            {% else %}
-            <p>いません</p>
-            {% endif %}
-
-            <div>
-                <h3>ユーザー</h3>
-
-                {% if user_list %}
-                {%for user in user_list %}
-                <div>
-                    {{user.username}}
-                    <form action="add_friend/" method="post" name="add_friend">
-                        {% csrf_token%}
-                        <button type='submit' name='action' value="{{user.id}}">友達追加</button>
-                    </form>
-                </div>
-                {% endfor %}
-                {% else %}
-                <p>いません</p>
-                {% endif %}
-
-            </div>
-
-        </div>
-        {% endblock %}
-        <script>
-            document.querySelector('#room-name-input').focus();
-            document.querySelector('#room-name-input').onkeyup = function (e) {
-                if (e.keyCode === 13) {  // enter, return
-                    document.querySelector('#room-name-submit').click();
-                }
-            };
-
-            document.querySelector('#room-name-submit').onclick = function (e) {
-                var roomName = document.querySelector('#room-name-input').value;
-                window.location.pathname = '/chat/room/' + roomName + '/';
-            };
-        </script>
+    document.querySelector('#room-name-submit').onclick = function (e) {
+        var roomName = document.querySelector('#room-name-input').value;
+        window.location.pathname = '/chat/room/' + roomName + '/';
+    };
+</script>

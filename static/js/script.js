@@ -14,34 +14,28 @@ Vue.component('open-modal', {
 })
 
 
-Vue.component('open-modal2', {
-    template: `
-    <div id="overlay" v-on:click.self="clickEvent">
-        <div id="content" >
-          <slot></slot>
-          <span v-on:click="clickEvent" type="button"class="material-icons modal_clear">clear</span>
-    </div></div>`,
-    methods: {
-        clickEvent: function () {
-            this.$emit('from-child')
-        }
-    }
-})
-
 
 
 new Vue({
-    el: '#app',
+    el: '#sidebar_vue',
     data: {
-        showContent: false
+        showAddRoom: false,
+        showAddFriend: false,
     },
     methods: {
         openModal: function () {
-            this.showContent = true
+            this.showAddRoom = true
         },
         closeModal: function () {
-            this.showContent = false
+            this.showAddRoom = false
         },
+
+        openAddFriendModal: function () {
+            this.showAddFriend = true
+        },
+        closeAddFriendModal: function () {
+            this.showAddFriend = false
+        }
     }
 })
 
@@ -116,4 +110,8 @@ new Vue({
     },
 
 })
+
+
+
+
 

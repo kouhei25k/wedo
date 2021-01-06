@@ -74,19 +74,15 @@
         <div class="room_footer" v-bind:class="footerCol">
             <div class="message_input">
                 <textarea id="chat-message-input" type="text" class="message_input_box"></textarea>
-                <input id="chat-message-submit" type="button" value="Send" class="message_input_send" />
+                <input id="chat-message-submit" type="submit" value="Send" class="message_input_send" />
             </div>
         </div>
     </div>
 
-
     <div class="room_details col-2" v-show="showDetails">
         <div class="room_details_header">
-
             <p>詳細</p>
             <span v-on:click="closeDetails" type="button" class="material-icons ">clear</span>
-
-
 
         </div>
         <div class="details_menber">
