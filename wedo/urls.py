@@ -21,5 +21,6 @@ from django.contrib import admin
 urlpatterns = [
     path('', include('chat.urls')),
     path('admin/', admin.site.urls),
-    path('accounts/', include(('django.contrib.auth.urls', 'accounts')))
+    path('accounts/', include(('django.contrib.auth.urls', 'accounts'))),
+    path('accounts/', include('accounts.urls')),
 ]

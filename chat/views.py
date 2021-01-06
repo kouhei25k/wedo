@@ -7,15 +7,6 @@ from chat.form import *
 import ast
 
 
-def test(request):
-    test = "testページ"
-    message_list = list(Message.objects.all().values())
-    todo_list = list(Todo.objects.all().values())
-
-    sum_list = message_list+todo_list
-    return render(request, 'chat/test.html', {'test': test, 'sum_list': sum_list})
-
-
 @login_required
 def index(request):
     friend_list = UserRelationship.objects.filter(
@@ -26,7 +17,11 @@ def index(request):
     context = {
         'user_list': notfriend_user_list, 'friend_list': friend_list}
 
-    return render(request, 'chat/index.html', context)
+    joined_room = request.user.joining_room.first()
+    if joined_room:
+        return redirect(f"room/{joined_room.id}")
+    else:
+        return render(request, 'chat/index.html', context)
 
 
 @login_required
