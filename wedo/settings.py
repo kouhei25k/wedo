@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '^^d=6fu+&^flz65bg#@g8bzb$rx882(8&8ev3e*r@gk^v+t^)4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -79,13 +79,13 @@ WSGI_APPLICATION = 'wedo.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
+from database import *
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'wedo',
-        'USER': 'postgres',
-        'PASSWORD': 'aoyama725K',
+        'NAME': name,
+        'USER': user,
+        'PASSWORD':password,
         'HOST': '127.0.0.1',
         'POST': '5432',
 
@@ -152,3 +152,7 @@ CHANNEL_LAYERS = {
 
 LOGIN_REDIRECT_URL = 'chat:index'      # ログイン
 LOGOUT_REDIRECT_URL = 'accounts:login'  # ログアウト
+try:
+    from .local_settings import *
+except ImportError:
+    pass
