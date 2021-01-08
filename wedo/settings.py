@@ -172,4 +172,3 @@ if not DEBUG:
     print(SECRET_KEY)
     import django_heroku  # 追加
     django_heroku.settings(locals())
-    django.setup()
