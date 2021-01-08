@@ -1,14 +1,8 @@
-from django.db import models
 
 # Create your models here.
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.contrib.auth.validators import UnicodeUsernameValidator
-from django.utils import timezone
-from django.utils.translation import gettext_lazy as _
-from django.core.mail import send_mail
 from django.contrib.auth.models import UserManager
-from django.contrib.postgres.fields import ArrayField
 from model_utils.fields import StatusField
 from model_utils import Choices
 
