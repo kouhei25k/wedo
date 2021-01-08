@@ -11,6 +11,18 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 
+try:
+    from .local_settings import *
+except ImportError:
+    pass
+
+if not DEBUG:
+    SECRET_KEY = os.environ['SECRET_KEY']
+    print(SECRET_KEY)
+    import django_heroku  # 追加
+    django_heroku.settings(locals())
+
+
 from pathlib import Path
 import os
 import dj_database_url
@@ -159,14 +171,3 @@ ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com']
 
 db_from_env = dj_database_url.config(conn_max_age=600, ssl_require=True)
 DATABASES['default'].update(db_from_env)
-
-try:
-    from .local_settings import *
-except ImportError:
-    pass
-
-if not DEBUG:
-    SECRET_KEY = os.environ['SECRET_KEY']
-    print(SECRET_KEY)
-    import django_heroku  # 追加
-    django_heroku.settings(locals())
