@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'chat.apps.ChatConfig',
-    'accounts.apps.AccountConfig',
+    'accounts.apps.AccountsConfig',
 
 
 ]
@@ -167,5 +167,6 @@ except ImportError:
 
 if not DEBUG:
     SECRET_KEY = os.environ['SECRET_KEY']
+    print(SECRET_KEY)
     import django_heroku  # 追加
     django_heroku.settings(locals())
