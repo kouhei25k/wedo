@@ -1,1 +1,1 @@
-web: daphne wedo.asgi:channel_layer --port $PORT --bind 0.0.0.0 -v2
+web: daphne wedo.asgi:application --port $PORT --bind 0.0.0.0 -v2
