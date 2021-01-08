@@ -15,8 +15,6 @@ import os
 from pathlib import Path
 import django
 
-django.setup()
-
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -171,6 +169,7 @@ except ImportError:
 
 if not DEBUG:
     SECRET_KEY = os.environ['SECRET_KEY']
+    django.setup()
     print(SECRET_KEY)
     import django_heroku  # 追加
     django_heroku.settings(locals())
