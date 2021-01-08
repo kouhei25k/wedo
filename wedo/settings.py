@@ -10,6 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+import dj_database_url
+import os
+from pathlib import Path
+
+DEBUG = False
 
 if not DEBUG:
     SECRET_KEY = os.environ['SECRET_KEY']
@@ -17,10 +22,6 @@ if not DEBUG:
     import django_heroku  # 追加
     django_heroku.settings(locals())
 
-
-from pathlib import Path
-import os
-import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -33,7 +34,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+
 
 ALLOWED_HOSTS = []
 
