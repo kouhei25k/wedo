@@ -35,15 +35,15 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'channels',
+    # 'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'chat.apps.ChatConfig',
-    'accounts.apps.AccountsConfig',
+    # 'chat.apps.ChatConfig',
+    # 'accounts.apps.AccountsConfig',
 
 
 ]
@@ -173,4 +173,4 @@ if not DEBUG:
     print(SECRET_KEY)
     import django_heroku  # 追加
     django_heroku.settings(locals())
-    django.setup()
+    # django.setup()
