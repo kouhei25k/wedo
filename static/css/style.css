@@ -118,7 +118,7 @@
 	width: 100%;
 }
 .message_input_send {
-	display: none;
+	/* display: none; */
 }
 
 .message_container {

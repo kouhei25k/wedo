@@ -13,32 +13,6 @@ Vue.component('open-modal', {
     }
 })
 
-
-
-
-new Vue({
-    el: '#sidebar_vue',
-    data: {
-        showAddRoom: false,
-        showAddFriend: false,
-    },
-    methods: {
-        openModal: function () {
-            this.showAddRoom = true
-        },
-        closeModal: function () {
-            this.showAddRoom = false
-        },
-
-        openAddFriendModal: function () {
-            this.showAddFriend = true
-        },
-        closeAddFriendModal: function () {
-            this.showAddFriend = false
-        }
-    }
-})
-
 new Vue({
     el: '#todo-form-vue',
     data: {
@@ -110,8 +84,104 @@ new Vue({
     },
 
 })
+new Vue({
+    delimiters: ['[[', ']]'],
+    el: '#sidebar_add_friend',
+    data: function () {
+        return {
+            showAddFriend: false,
+            userId: null,
+            username: "",
+            params: {
+                query: ""
+            },
+            user_search_input: "",
+            searchedUser: false,
+            userDoseNotExist: false
+        }
+    },
+
+    methods: {
+        searchUser: function () {
+            this.params.query = this.user_search_input
+            axios
+                .get('../../axios_test/', {
+                    params: this.params
+                })
+                .then(response => {
+                    if (response.data == "None") {
+                        this.userDoseNotExist = true
+                    } else {
+                        // console.log(response.data)
+                        this.userId = response.data[0].pk;
+                        this.username = response.data[0].fields.username;
+                        this.searchedUser = true
+                    }
+
+                })
+        },
+        openAddFriendModal: function () {
+            this.showAddFriend = true
+        },
+        closeAddFriendModal: function () {
+            this.showAddFriend = false
+        }
+    }
+})
+
+new Vue({
+    el: '#sidebar_add_room',
+    data: {
+        showAddRoom: false,
+
+    },
+    methods: {
+        openModal: function () {
+            this.showAddRoom = true
+        },
+        closeModal: function () {
+            this.showAddRoom = false
+        },
+
+    }
+})
 
 
+new Vue({
+    delimiters: ['[[', ']]'],
+    el: '#test_vue',
+    data: function () {
+        return {
+            userId: null,
+            username: "",
+            params: {
+                query: ""
+            },
+            user_search_input: "",
+            searchedUser: false,
+            userDoseNotExist: false
+        }
+    },
 
+    methods: {
+        searchUser: function () {
+            this.params.query = this.user_search_input
+            axios
+                .get('../axios_test/', {
+                    params: this.params
+                })
+                .then(response => {
 
+                    if (response.data == "None") {
+                        this.userDoseNotExist = true
+                    } else {
+                        console.log(response.data)
+                        this.userId = response.data[0].pk;
+                        this.username = response.data[0].fields.username;
+                        this.searchedUser = true
+                    }
 
+                })
+        },
+    }
+})

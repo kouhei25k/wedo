@@ -1,21 +1,23 @@
-{% extends 'chat/base.html' %} {% block content %}
+{% extends 'chat/base.html' %}
+{% block content %}
 <!-- just leaving it empty for now. we will add core here soon. -->
 
-<p>{{test}}</p>
-<html lang="ja">
 
-<head>
-    <meta charset="UTF-8">
-    <title>modalをcomponentで作る</title>
-</head>
+<div id="test_vue">
+    <input type="text" name="query" v-model="user_search_input">
+    <button v-on:click="searchUser">検索</button>
+    <template v-if="searchedUser">
+        <p>[[username]]</p>
+        <form action="{%url 'chat:add_friend' %}" method="post" name="add_friend">
+            {% csrf_token%}
+            <button type='submit' name='action' v-bind:value="userId">友達追加</button>
+        </form>
+    </template>
+    <div v-else-if="userDoseNotExist">
+        <p>入力したユーザーは存在しません</p>
+    </div>
+</div>
 
 
-<body>
-    {{sum_list}}
-
-
-</body>
-
-</html>
 
 {% endblock %}

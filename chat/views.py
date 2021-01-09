@@ -1,3 +1,5 @@
+from django.core import serializers
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from chat.models import *
 from accounts.models import CustomUser, UserRelationship
@@ -51,7 +53,6 @@ def createroom(request):
 
 @login_required
 def add_friend(request):
-
     if request.method == 'POST':
         friend_request_user = request.POST['action']
         relationship = UserRelationship()
@@ -73,6 +74,7 @@ def add_friend(request):
 @login_required
 def add_menber(request, room_name):
     if request.method == 'POST':
+
         select_user = request.POST['action']
         user = CustomUser.objects.get(username=select_user)
         user.joining_room.add(room_name)
@@ -95,3 +97,22 @@ def new_todo(request):
     context = {'form': form}
 
     return render(request, "polls/detail.html", context)
+
+
+def axios_test(request):
+    if request.method == 'GET':
+        q_username = request.GET.get('query')
+
+        if CustomUser.objects.filter(username=q_username).exists():
+            user = CustomUser.objects.filter(username=q_username)
+            json_user = serializers.serialize(
+                "json", user,  fields=('id', 'username',))
+        else:
+            json_user = None
+
+    return HttpResponse(json_user)
+
+
+def test(request):
+
+    return render(request, 'chat/test.html', )

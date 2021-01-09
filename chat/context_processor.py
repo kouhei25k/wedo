@@ -12,8 +12,18 @@ def common(request):
         friend_list = UserRelationship.objects.filter(
             (Q(relating_user=request.user) | Q(related_user=request.user)) & Q(status='friend'))
 
+    # if request.method == 'GET':
+    #     searched_user = None
+    #     q_word = request.GET.get('query')
+    #     if q_word:
+    #         try:
+    #             searched_user = CustomUser.objects.get(username=q_word)
+    #         except SomeModel.DoesNotExist:
+    #             searched_user = None
+
     context = {
         'room_list': room_list,
-        'friend_list': friend_list
+        'friend_list': friend_list,
+        # 'searched_user': searched_user,
     }
     return context
